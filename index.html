@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rishabh Singh Chauhan — Advocate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #1a1209;
+      --parchment: #f5efe2;
+      --gold: #b8922a;
+      --gold-light: #d4a843;
+      --muted: #7a6e5f;
+      --rule: #c9b99a;
+      --cream: #faf6ed;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2.5rem;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(26,18,9,0.92);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      font-style: italic;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,239,226,0.6);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      background: var(--ink);
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, #2e1f08 0%, transparent 70%);
+    }
+    .hero-border {
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(184,146,42,0.3);
+      pointer-events: none;
+    }
+    .corner {
+      position: absolute;
+      width: 32px; height: 32px;
+      border-color: var(--gold);
+      border-style: solid;
+      border-width: 0;
+    }
+    .corner.tl { top: 24px; left: 24px; border-top-width: 2px; border-left-width: 2px; }
+    .corner.tr { top: 24px; right: 24px; border-top-width: 2px; border-right-width: 2px; }
+    .corner.bl { bottom: 24px; left: 24px; border-bottom-width: 2px; border-left-width: 2px; }
+    .corner.br { bottom: 24px; right: 24px; border-bottom-width: 2px; border-right-width: 2px; }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-tag {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--parchment);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+    h1 em { font-style: italic; color: var(--gold-light); }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.8rem auto;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.6s forwards;
+    }
+    .hero-divider span {
+      display: block; height: 1px; width: 60px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .hero-divider span:last-child { background: linear-gradient(to left, transparent, var(--gold)); }
+    .hero-divider i { font-style: normal; color: var(--gold); font-size: 1rem; }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(245,239,226,0.65);
+      letter-spacing: 0.05em;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.8s forwards;
+    }
+    .hero-contact {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1s forwards;
+    }
+    .hero-contact a {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,239,226,0.55);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .hero-contact a:hover { color: var(--gold-light); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTIONS */
+    section { max-width: 860px; margin: 0 auto; padding: 5rem 2rem; }
+
+    .section-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--ink); margin-bottom: 2.5rem;
+    }
+    .rule { width: 48px; height: 2px; background: var(--gold); margin-bottom: 2rem; }
+
+    /* ABOUT */
+    #about p { font-size: 1.15rem; color: #3a3025; max-width: 640px; margin-bottom: 1rem; }
+    #about p:first-of-type::first-letter {
+      font-size: 3.5rem; float: left; line-height: 0.8;
+      margin-right: 0.12em; margin-top: 0.08em;
+      color: var(--gold); font-weight: 600;
+    }
+
+    /* SKILLS */
+    #skills { background: var(--ink); color: var(--parchment); max-width: 100%; padding: 5rem 2rem; }
+    #skills .inner { max-width: 860px; margin: 0 auto; }
+    #skills h2 { color: var(--parchment); }
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem; margin-top: 1rem;
+    }
+    .skill-card {
+      border: 1px solid rgba(184,146,42,0.25);
+      padding: 1.8rem 1.6rem;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .skill-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .skill-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; width: 3px; height: 100%;
+      background: var(--gold);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.35s ease;
+    }
+    .skill-card:hover::before { transform: scaleY(1); }
+    .skill-num {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; letter-spacing: 0.3em;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .skill-card h3 { font-size: 1.1rem; font-weight: 400; color: var(--parchment); margin-bottom: 0.5rem; }
+    .skill-card p { font-size: 0.9rem; color: rgba(245,239,226,0.55); font-style: italic; }
+
+    /* EXPERIENCE */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 0; top: 8px; bottom: 0; width: 1px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .tl-item {
+      position: relative; margin-bottom: 2.8rem;
+      opacity: 0; transform: translateX(-16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .tl-item.visible { opacity: 1; transform: translateX(0); }
+    .tl-item::before {
+      content: ''; position: absolute;
+      left: -2.4rem; top: 8px;
+      width: 9px; height: 9px;
+      border-radius: 50%; background: var(--gold);
+      box-shadow: 0 0 0 3px var(--cream);
+    }
+    .tl-date {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.3rem;
+    }
+    .tl-title { font-size: 1.2rem; font-weight: 600; color: var(--ink); margin-bottom: 0.15rem; }
+    .tl-org { font-size: 1rem; font-style: italic; color: var(--muted); margin-bottom: 0.5rem; }
+    .tl-desc { font-size: 0.95rem; color: #5a5045; }
+
+    /* EDUCATION */
+    #education { background: var(--parchment); max-width: 100%; padding: 5rem 2rem; }
+    #education .inner { max-width: 860px; margin: 0 auto; }
+    #education h2 { color: var(--ink); }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .edu-card {
+      background: var(--cream);
+      border-top: 3px solid var(--gold);
+      padding: 1.5rem;
+      transition: box-shadow 0.3s;
+    }
+    .edu-card:hover { box-shadow: 4px 8px 28px rgba(26,18,9,0.12); }
+    .edu-year {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; letter-spacing: 0.3em;
+      color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .edu-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+    .edu-card p { font-size: 0.88rem; color: var(--muted); font-style: italic; }
+
+    /* CONTACT */
+    #contact { text-align: center; padding: 5rem 2rem 6rem; }
+    #contact h2 { margin-bottom: 0.5rem; }
+    #contact > p { color: var(--muted); font-style: italic; margin-bottom: 2.5rem; }
+
+    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .contact-btn {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2.2rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background 0.25s, color 0.25s;
+      display: inline-block;
+    }
+    .contact-btn:hover { background: var(--gold); color: var(--cream); }
+    .contact-btn.solid { background: var(--ink); border-color: var(--ink); color: var(--parchment); }
+    .contact-btn.solid:hover { background: #2e1f08; }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      color: rgba(245,239,226,0.35);
+      text-align: center; padding: 2rem;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      h1 { font-size: 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-logo">R. S. Chauhan</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Practice</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <div class="hero-border"></div>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Advocate &nbsp;·&nbsp; New Delhi, India</p>
+      <h1>Rishabh <em>Singh</em><br>Chauhan</h1>
+      <div class="hero-divider">
+        <span></span><i>⚖</i><span></span>
+      </div>
+      <p class="hero-sub">LL.B. · Madhya Pradesh High Court &amp; District Courts</p>
+      <div class="hero-contact">
+        <a href="tel:+917692872195">+91 76928 72195</a>
+        <a href="mailto:rishabh.singhchauhangwl96@gmail.com">rishabh.singhchauhangwl96@gmail.com</a>
+        <a>New Ashok Nagar, Delhi</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <p class="section-label">About</p>
+    <h2>A Dedicated Legal <em>Professional</em></h2>
+    <div class="rule"></div>
+    <p>
+      I am a practicing Advocate with a strong foundation in litigation and legal research.
+      Having completed my LL.B. from Jiwaji University, Gwalior, I bring both academic depth
+      and practical courtroom experience to every matter I undertake.
+    </p>
+    <p>
+      My practice spans Writ Petitions, Bail Applications, and Miscellaneous Applications,
+      with appearances before the Hon'ble Madhya Pradesh High Court and various District
+      Courts. I am driven by precision, dedication, and a commitment to achieving
+      result-oriented outcomes for my clients and chambers.
+    </p>
+  </section>
+
+  <div id="skills">
+    <div class="inner">
+      <p class="section-label">Areas of Practice</p>
+      <h2>Legal <em>Competencies</em></h2>
+      <div class="rule"></div>
+      <div class="skill-grid">
+        <div class="skill-card">
+          <p class="skill-num">01</p>
+          <h3>Writ &amp; Contempt Petitions</h3>
+          <p>Drafting and filing before High Courts</p>
+        </div>
+        <div class="skill-card">
+          <p class="skill-num">02</p>
+          <h3>Bail Applications</h3>
+          <p>Regular, anticipatory &amp; bail-related matters</p>
+        </div>
+        <div class="skill-card">
+          <p class="skill-num">03</p>
+          <h3>Legal Research</h3>
+          <p>Judgement analysis &amp; statutory interpretation</p>
+        </div>
+        <div class="skill-card">
+          <p class="skill-num">04</p>
+          <h3>Court Appearances</h3>
+          <p>High Court &amp; District Courts, Madhya Pradesh</p>
+        </div>
+        <div class="skill-card">
+          <p class="skill-num">05</p>
+          <h3>Miscellaneous Applications</h3>
+          <p>Interlocutory &amp; ancillary applications</p>
+        </div>
+        <div class="skill-card">
+          <p class="skill-num">06</p>
+          <h3>Digital Literacy</h3>
+          <p>P.G. Diploma in Computer Science</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="experience">
+    <p class="section-label">Experience</p>
+    <h2>Professional <em>Journey</em></h2>
+    <div class="rule"></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <p class="tl-date">December 2025 — Present</p>
+        <p class="tl-title">Advocate</p>
+        <p class="tl-org">Jurist &amp; Jurist International Law Firm, Greater Kailash, New Delhi</p>
+        <p class="tl-desc">Active legal practice at a reputed international law firm in New Delhi, handling varied litigation matters.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-date">December 2024 — August 2025</p>
+        <p class="tl-title">Practice Associate</p>
+        <p class="tl-org">Sh. Vivek Khedkhar, Senior Advocate &amp; Additional Advocate General, M.P. High Court, Gwalior Bench</p>
+        <p class="tl-desc">Assisted the Additional Advocate General in court proceedings, legal drafting, and research at the Madhya Pradesh High Court Bench, Gwalior.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-date">April 2024 — May 2024</p>
+        <p class="tl-title">Legal Intern</p>
+        <p class="tl-org">District Legal Service Authority, Gwalior</p>
+        <p class="tl-desc">Gained exposure to access-to-justice initiatives and legal aid administration at the district level.</p>
+      </div>
+      <div class="tl-item">
+        <p class="tl-date">May 2023 — June 2023</p>
+        <p class="tl-title">Legal Intern</p>
+        <p class="tl-org">Sh. M.P.S. Raghuvanshi, Senior Advocate &amp; Additional Advocate General, M.P. High Court, Gwalior Bench</p>
+        <p class="tl-desc">Worked under a senior advocate gaining experience in court procedures, drafting, and High Court practices.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="education">
+    <div class="inner">
+      <p class="section-label">Education</p>
+      <h2>Academic <em>Background</em></h2>
+      <div class="rule"></div>
+      <div class="edu-grid">
+        <div class="edu-card">
+          <p class="edu-year">2024</p>
+          <h3>LL.B.</h3>
+          <p>Jiwaji University, GLC College, Gwalior</p>
+        </div>
+        <div class="edu-card">
+          <p class="edu-year">2019 – 2020</p>
+          <h3>P.G. Diploma in Computer Science</h3>
+          <p>Makhanlal Chaturvedi University, Bhopal</p>
+        </div>
+        <div class="edu-card">
+          <p class="edu-year">2018</p>
+          <h3>Bachelor of Science</h3>
+          <p>Jiwaji University, Vijaya Raje Scindhiya College, Gwalior</p>
+        </div>
+        <div class="edu-card">
+          <p class="edu-year">2015</p>
+          <h3>Class XII</h3>
+          <p>C.B.S.E Board, Gwalior</p>
+        </div>
+        <div class="edu-card">
+          <p class="edu-year">2013</p>
+          <h3>Class X</h3>
+          <p>C.B.S.E Board, Gwalior</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="contact">
+    <p class="section-label">Get In Touch</p>
+    <h2>Let's <em>Connect</em></h2>
+    <div class="rule" style="margin: 0 auto 1.5rem;"></div>
+    <p>Available for consultations, briefings, and chamber enquiries.</p>
+    <div class="contact-links">
+      <a class="contact-btn solid" href="tel:+917692872195">📞 &nbsp;+91 76928 72195</a>
+      <a class="contact-btn" href="mailto:rishabh.singhchauhangwl96@gmail.com">✉ &nbsp;Send an Email</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 &nbsp;Rishabh Singh Chauhan, Advocate &nbsp;·&nbsp; New Ashok Nagar, Delhi</p>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    const items = document.querySelectorAll('.tl-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 120);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
